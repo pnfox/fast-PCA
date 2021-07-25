@@ -3,6 +3,7 @@ project(ArrayFire-Example-Linear-Algebra
   VERSION 3.5.0
   LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 17)
 find_package(ArrayFire)
 
 
