@@ -9,6 +9,6 @@
 
 af::array fast_PCA();
 
-std::vector<double> read_csv(const char*);
+af::array read_csv(const char*);
 
 #endif
