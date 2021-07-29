@@ -8,11 +8,8 @@ int main(int argc, char* argv[]) {
 
     af::array data = read_csv("data.csv");
 
-    af_print(data);
-
     std::cout << "Performing PCA..." << std::endl;
-    af::array pca = fast_PCA();
-    af_print(pca);
+    af::array pca = fast_PCA(data);
 
     return 0;
 }

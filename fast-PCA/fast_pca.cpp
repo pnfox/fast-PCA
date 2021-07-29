@@ -1,10 +1,8 @@
 #include "fast_pca.h"
 
-af::array fast_PCA()
+af::array fast_PCA(af::array x)
 {
     try {
-        af::array x = af::randn(20, 5, f32);
-
         af::array m = af::mean(x);
         m = af::tile(m, x.dims()[0]);
         af::array b = x - m;
@@ -12,14 +10,17 @@ af::array fast_PCA()
         af::array u;
         af::array s_vec;
         af::array vt;
-        af::svd(u, s_vec, vt, b);
+        if(x.dims()[0] > x.dims()[1])
+            af::svdInPlace(u, s_vec, vt, b);
+        else
+            af::svd(u, s_vec, vt, b);
         af::array s_mat    = diag(s_vec, 0, false);
 
         // flip signs
         u = u * (u / sqrt(u*u));
         vt = vt * (vt / sqrt(vt*vt));
 
-        af::array pca = af::matmul(u(af::span, af::seq(5)), s_mat);
+        af::array pca = af::matmul(u(af::span, af::seq(x.dims()[1])), s_mat);
         return pca;
 
     } catch (af::exception& e) {
@@ -28,7 +29,7 @@ af::array fast_PCA()
     }
 }
 
-af::array read_csv(const char* file_name)
+af::array read_csv(std::string file_name)
 {
     std::fstream file(file_name);
     long n_chars = 0;
@@ -39,6 +40,11 @@ af::array read_csv(const char* file_name)
     int row_number = 0;
     int column_number = 0;
     double tmp_data;
+
+    if(!file.is_open()){
+        throw std::runtime_error("Could not open file " + file_name);
+        return af::array();
+    }
 
     // Find the number of columns in csv file
     std::getline(file, line);

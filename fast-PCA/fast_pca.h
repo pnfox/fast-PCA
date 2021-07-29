@@ -5,10 +5,12 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <stdexcept>
 
 
-af::array fast_PCA();
 
-af::array read_csv(const char*);
+af::array fast_PCA(af::array x);
+
+af::array read_csv(std::string file_name);
 
 #endif
