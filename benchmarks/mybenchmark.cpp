@@ -1,18 +1,28 @@
 #include <benchmark.h>
+#include <chrono>
+#include "fast_pca.h"
 
-static void BM_StringCreation(benchmark::State& state) {
+static void BM_read_csv(benchmark::State& state) {
   for (auto _ : state)
-    std::string empty_string;
+    read_csv("data.csv");
 }
 // Register the function as a benchmark
-BENCHMARK(BM_StringCreation);
+BENCHMARK(BM_read_csv);
 
-// Define another benchmark
-static void BM_StringCopy(benchmark::State& state) {
-  std::string x = "hello";
-  for (auto _ : state)
-    std::string copy(x);
+static void BM_fast_pca(benchmark::State& state) {
+  af::array data = read_csv("data.csv");
+
+  for (auto _ : state){
+    auto start = std::chrono::high_resolution_clock::now();
+    fast_PCA(data);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed_seconds =
+          std::chrono::duration_cast<std::chrono::duration<double>>(
+            end - start);
+
+    state.SetIterationTime(elapsed_seconds.count());
+  }
 }
-BENCHMARK(BM_StringCopy);
+BENCHMARK(BM_fast_pca)->UseManualTime();
 
 BENCHMARK_MAIN();

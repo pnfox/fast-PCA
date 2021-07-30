@@ -9,8 +9,8 @@ find_package(ArrayFire)
 
 if(ArrayFire_CPU_FOUND)
   # SVD example
-  add_library(fast_pca OBJECT fast_pca.cpp)
-  add_executable(svd svd.cpp)
+  add_library(fast_pca OBJECT ${CMAKE_CURRENT_SOURCE_DIR}/../fast-PCA/fast_pca.cpp)
+  add_executable(svd ${CMAKE_CURRENT_SOURCE_DIR}/../fast-PCA/svd.cpp)
   target_link_libraries(fast_pca ArrayFire::afcpu)
   target_link_libraries(svd fast_pca)
 endif()
