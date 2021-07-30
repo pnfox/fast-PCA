@@ -13,6 +13,9 @@ find_library(benchmark_LIBRARY NAMES "benchmark"
   NO_DEFAULT_PATH)
 find_library(benchmark_LIBRARY NAMES "benchmark")
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/../fast-PCA/CMakeLists.txt)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../fast-PCA/)
 
 add_executable(mybenchmark mybenchmark.cpp)
 target_link_libraries(mybenchmark ${benchmark_LIBRARY})
+target_link_libraries(mybenchmark fast_pca)
