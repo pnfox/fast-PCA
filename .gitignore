@@ -31,10 +31,6 @@
 *.out
 *.app
 
-# Data
-*.csv
-*.json
-
 # CMake garbage
 CMakeLists.txt.user
 CMakeCache.txt
