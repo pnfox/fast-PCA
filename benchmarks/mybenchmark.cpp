@@ -10,7 +10,7 @@ static void BM_read_csv(benchmark::State& state) {
 BENCHMARK(BM_read_csv);
 
 static void BM_fast_pca(benchmark::State& state) {
-  af::array data = read_csv("../data/data.csv");
+  Eigen::MatrixXf data = read_csv("../data/data.csv");
 
   for (auto _ : state){
     auto start = std::chrono::high_resolution_clock::now();
@@ -24,5 +24,6 @@ static void BM_fast_pca(benchmark::State& state) {
   }
 }
 BENCHMARK(BM_fast_pca)->UseManualTime();
+
 
 BENCHMARK_MAIN();

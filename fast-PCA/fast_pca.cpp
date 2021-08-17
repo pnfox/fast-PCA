@@ -1,35 +1,7 @@
 #include "fast_pca.h"
+#include <iostream>
 
-af::array fast_PCA(af::array x)
-{
-    try {
-        af::array m = af::mean(x);
-        m = af::tile(m, x.dims()[0]);
-        af::array b = x - m;
-
-        af::array u;
-        af::array s_vec;
-        af::array vt;
-        if(x.dims()[0] > x.dims()[1])
-            af::svdInPlace(u, s_vec, vt, b);
-        else
-            af::svd(u, s_vec, vt, b);
-        af::array s_mat    = diag(s_vec, 0, false);
-
-        // flip signs
-        u = u * (u / sqrt(u*u));
-        vt = vt * (vt / sqrt(vt*vt));
-
-        af::array pca = af::matmul(u(af::span, af::seq(x.dims()[1])), s_mat);
-        return pca;
-
-    } catch (af::exception& e) {
-        fprintf(stderr, "%s\n", e.what());
-        throw;
-    }
-}
-
-af::array read_csv(std::string file_name)
+Eigen::MatrixXf read_csv(std::string file_name)
 {
     std::fstream file(file_name);
     long n_chars = 0;
@@ -43,7 +15,7 @@ af::array read_csv(std::string file_name)
 
     if(!file.is_open()){
         throw std::runtime_error("Could not open file " + file_name);
-        return af::array();
+        return Eigen::MatrixXf(0,0);
     }
 
     // Find the number of columns in csv file
@@ -54,7 +26,7 @@ af::array read_csv(std::string file_name)
     // Create MxN Arrayfire Array for storing csv
     row_number = std::count(std::istreambuf_iterator<char>(file),
              std::istreambuf_iterator<char>(), '\n') + 1;
-    af::array data(row_number, column_number, f64);
+    Eigen::MatrixXf data(row_number, column_number);
 
     // Find the number of characters in file
 	file.seekg(0, std::ios_base::beg);
