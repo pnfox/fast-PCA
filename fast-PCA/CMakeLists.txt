@@ -4,7 +4,6 @@ project(ArrayFire-Example-Linear-Algebra
   LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
-find_package(ArrayFire REQUIRED)
 find_package(Eigen3 REQUIRED NO_MODULE)
 
 

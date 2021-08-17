@@ -7,7 +7,7 @@ Decomposes high dimensional data into its most statistically descriptive factors
 
 * C++
 * CMake
-* Arrayfire
+* Eigen
 
 
 ### Usage
