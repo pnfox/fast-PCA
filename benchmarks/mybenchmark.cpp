@@ -1,4 +1,8 @@
-#include <benchmark.h>
+#ifdef __APPLE__
+    #include <benchmark/benchmark.h>
+#elif
+    #include <benchmark.h>
+#endif
 #include <chrono>
 #include "fast_pca.h"
 
