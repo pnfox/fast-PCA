@@ -2,7 +2,12 @@ cmake_minimum_required(VERSION 3.0)
 project("Benchmark Fast-PCA")
 
 set(CMAKE_CXX_STANDARD 17)
-find_package(benchmark REQUIRED)
+
+if(APPLE)
+    find_library(benchmark_LIBRARY NAMES "benchmark" PATHS /usr/local/Cellar/)
+else()
+    find_package(benchmark REQUIRED)
+endif()
 
 include_directories("/usr/include/benchmark")
 include_directories(headers)
